@@ -2,11 +2,10 @@
 #define QUATERNION_H
 
 #include <math.h>
-#include "Arduino.h"
 
 class Quaternion
 {
-   public:
+public:
     float w = 1.0f;
     float x = 0.0f;
     float y = 0.0f;
@@ -19,7 +18,6 @@ class Quaternion
     }
     Quaternion(const float w[3], const float dt);
     Quaternion(const float euler_angle[3]);
-    Quaternion(const float rotation_matrix[3][3]);
 
     float norm(void);
     float invNorm(void);
@@ -89,8 +87,11 @@ class Quaternion
         return *this;
     }
 
-    void toEulerAngle( float *roll,  float *pitch,
-                       float *yaw) const;
+    void toEulerAngle(float *roll, float *pitch, float *yaw) const;
+    Quaternion rotate(Quaternion v) const;
+    static Quaternion slerp(Quaternion q1, Quaternion q2, float t);
+    static Quaternion fromTwoVector(Quaternion q1, Quaternion q2);
+    static Quaternion dot(Quaternion v0, Quaternion v1);
 };
 
 Quaternion operator+(const Quaternion &lhs, const Quaternion &rhs);
